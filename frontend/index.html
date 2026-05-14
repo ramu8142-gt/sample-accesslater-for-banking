@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>ACL Digital - Zero Touch ETL Accelerator</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eef3fb;
+    color: #0D1F3C;
+}
+
+.header {
+    background: linear-gradient(135deg, #0D1F3C, #1A2E5A);
+    color: white;
+    padding: 28px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #dbeafe;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 16px;
+}
+
+.section {
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+}
+
+.section h3 {
+    margin-top: 0;
+    color: #1A2E5A;
+    border-left: 5px solid #F47920;
+    padding-left: 12px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.form-group label {
+    font-weight: 700;
+    display: block;
+    margin-bottom: 6px;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.cost {
+    color: #F47920;
+    font-size: 22px;
+    font-weight: 900;
+    margin-top: 10px;
+}
+
+.total {
+    background: linear-gradient(135deg, #1A2E5A, #0D1F3C);
+    color: white;
+    padding: 26px;
+    border-radius: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total h1 {
+    margin: 0;
+    font-size: 42px;
+}
+
+.btn {
+    background: #F47920;
+    color: white;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: #d96312;
+}
+
+pre {
+    background: #f8fafc;
+    padding: 16px;
+    border-radius: 12px;
+    overflow: auto;
+    font-size: 13px;
+}
+
+.status {
+    margin-top: 12px;
+    font-weight: 700;
+}
+
+@media(max-width: 900px) {
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>ACL Digital — Zero-Touch Intelligent ETL Accelerator</h1>
+    <p>Metadata Driven Azure ETL Configuration</p>
+</div>
+
+<div class="container">
+
+    <div class="section">
+        <h3>Pipeline Info</h3>
+        <div class="grid">
+            <div class="form-group">
+                <label>Environment</label>
+                <select id="env">
+                    <option>dev</option>
+                    <option>qa</option>
+                    <option>prod</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Pipeline Name</label>
+                <input id="pipeline" type="text" value="Sales_Ingestion">
+            </div>
+
+            <div class="form-group">
+                <label>Dependency Pipeline</label>
+                <input id="dependency" type="text" placeholder="Optional dependency">
+            </div>
+
+            <div class="form-group">
+                <label>Execution Mode</label>
+                <select id="execution_mode">
+                    <option>batch</option>
+                    <option>streaming</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Source Configuration</h3>
+        <div class="grid">
+            <div class="form-group">
+                <label>Source Name</label>
+                <input id="source_name" type="text" value="sales_source">
+            </div>
+
+            <div class="form-group">
+                <label>Source Path</label>
+                <input id="source_path" type="text" value="raw/sales/input.csv">
+            </div>
+
+            <div class="form-group">
+                <label>Source Format</label>
+                <select id="source_format">
+                    <option>csv</option>
+                    <option>json</option>
+                    <option>parquet</option>
+                    <option>delta</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Connection String / Secret Name</label>
+                <input id="connection_string" type="text" value="storage-connection-secret">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Target Configuration</h3>
+        <div class="grid">
+            <div class="form-group">
+                <label>Catalog</label>
+                <input id="catalog" type="text" value="main">
+            </div>
+
+            <div class="form-group">
+                <label>Schema</label>
+                <input id="schema" type="text" value="sales">
+            </div>
+
+            <div class="form-group">
+                <label>Layer</label>
+                <select id="layer">
+                    <option>bronze</option>
+                    <option>silver</option>
+                    <option>gold</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Target Table</label>
+                <input id="target_table" type="text" value="sales_cleaned">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>ADF Configuration</h3>
+        <div class="grid">
+            <div class="form-group">
+                <label>ADF Factory Name</label>
+                <input id="adf_factory" value="adf-acl-ztetl-dev-in-01">
+            </div>
+
+            <div class="form-group">
+                <label>ADF Pipeline Name</label>
+                <input id="adf_pipeline" value="zero_touch_etl_pipeline">
+            </div>
+
+            <div class="form-group">
+                <label>Config File Name</label>
+                <input id="config_file" value="pipeline_config.yaml">
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3>Azure Resources & Cost Estimation</h3>
+        <div class="grid">
+            <div class="form-group">
+                <label>Azure Functions Executions</label>
+                <input id="functionsRuns" type="number" value="1000" oninput="updatePreview()">
+                <div class="cost" id="functionsCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>ADF Pipeline Runs</label>
+                <input id="adfRuns" type="number" value="5" oninput="updatePreview()">
+                <div class="cost" id="adfCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>Databricks Cluster Hours</label>
+                <input id="databricksHours" type="number" value="2" oninput="updatePreview()">
+                <div class="cost" id="databricksCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>Azure SQL DB Runtime Hours</label>
+                <input id="sqlHours" type="number" value="2" oninput="updatePreview()">
+                <div class="cost" id="sqlCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>Linked Services Count</label>
+                <input id="linkedServicesCount" type="number" value="3" oninput="updatePreview()">
+                <div class="cost" id="linkedServicesCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>Key Vault Secret Operations</label>
+                <input id="keyVaultOps" type="number" value="1000" oninput="updatePreview()">
+                <div class="cost" id="keyVaultCost">$0.00</div>
+            </div>
+
+            <div class="form-group">
+                <label>ADLS Storage GB</label>
+                <input id="storageGb" type="number" value="5" oninput="updatePreview()">
+                <div class="cost" id="storageCost">$0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section total">
+        <div>
+            <p>Total Estimated Azure Cost</p>
+            <h1 id="totalAzureCost">$0.00</h1>
+            <small>Approximate demo estimate only</small>
+        </div>
+        <button class="btn" onclick="submitMetadata()">Create Pipeline</button>
+    </div>
+
+    <div class="section">
+        <h3>Payload Preview</h3>
+        <pre id="payloadPreview"></pre>
+        <div class="status" id="statusMessage"></div>
+    </div>
+
+</div>
+
+<script>
+function calculateAzureCosts() {
+    const costs = {
+        azure_functions: Number(document.getElementById("functionsRuns").value || 0) * 0.0000002,
+        azure_data_factory: Number(document.getElementById("adfRuns").value || 0) * 0.05,
+        azure_databricks: Number(document.getElementById("databricksHours").value || 0) * 1.20,
+        azure_sql_db: Number(document.getElementById("sqlHours").value || 0) * 0.80,
+        linked_services: Number(document.getElementById("linkedServicesCount").value || 0) * 0,
+        azure_key_vault: Number(document.getElementById("keyVaultOps").value || 0) * 0.000003,
+        adls_storage: Number(document.getElementById("storageGb").value || 0) * 0.02
+    };
+
+    const total = Object.values(costs).reduce((a, b) => a + b, 0);
+
+    document.getElementById("functionsCost").innerText = "$" + costs.azure_functions.toFixed(4);
+    document.getElementById("adfCost").innerText = "$" + costs.azure_data_factory.toFixed(2);
+    document.getElementById("databricksCost").innerText = "$" + costs.azure_databricks.toFixed(2);
+    document.getElementById("sqlCost").innerText = "$" + costs.azure_sql_db.toFixed(2);
+    document.getElementById("linkedServicesCost").innerText = "$" + costs.linked_services.toFixed(2);
+    document.getElementById("keyVaultCost").innerText = "$" + costs.azure_key_vault.toFixed(4);
+    document.getElementById("storageCost").innerText = "$" + costs.adls_storage.toFixed(2);
+    document.getElementById("totalAzureCost").innerText = "$" + total.toFixed(2);
+
+    return { costs, total };
+}
+
+function buildPayload() {
+    const result = calculateAzureCosts();
+
+    return {
+        pipeline_name: document.getElementById("pipeline").value,
+        environment: document.getElementById("env").value,
+        dependency: document.getElementById("dependency").value,
+        execution_mode: document.getElementById("execution_mode").value,
+
+        source: {
+            name: document.getElementById("source_name").value,
+            path: document.getElementById("source_path").value,
+            format: document.getElementById("source_format").value,
+            connection_string: document.getElementById("connection_string").value
+        },
+
+        target: {
+            catalog: document.getElementById("catalog").value,
+            schema: document.getElementById("schema").value,
+            layer: document.getElementById("layer").value,
+            table: document.getElementById("target_table").value
+        },
+
+        adf: {
+            factory_name: document.getElementById("adf_factory").value,
+            pipeline_name: document.getElementById("adf_pipeline").value
+        },
+
+        config: {
+            file_name: document.getElementById("config_file").value,
+            storage_container: "config"
+        },
+
+        storage_zones: {
+            raw: "raw/",
+            bronze: "bronze/",
+            silver: "silver/",
+            gold: "gold/",
+            quarantine: "quarantine/",
+            audit: "audit/",
+            config: "config/"
+        },
+
+        azure_resources: {
+            azure_functions: {
+                executions: Number(document.getElementById("functionsRuns").value || 0),
+                estimated_cost_usd: result.costs.azure_functions.toFixed(4)
+            },
+            azure_data_factory: {
+                pipeline_runs: Number(document.getElementById("adfRuns").value || 0),
+                estimated_cost_usd: result.costs.azure_data_factory.toFixed(2)
+            },
+            azure_databricks: {
+                cluster_hours: Number(document.getElementById("databricksHours").value || 0),
+                estimated_cost_usd: result.costs.azure_databricks.toFixed(2)
+            },
+            azure_sql_db: {
+                runtime_hours: Number(document.getElementById("sqlHours").value || 0),
+                estimated_cost_usd: result.costs.azure_sql_db.toFixed(2)
+            },
+            linked_services: {
+                count: Number(document.getElementById("linkedServicesCount").value || 0),
+                estimated_cost_usd: "0.00"
+            },
+            azure_key_vault: {
+                secret_operations: Number(document.getElementById("keyVaultOps").value || 0),
+                estimated_cost_usd: result.costs.azure_key_vault.toFixed(4)
+            },
+            adls_storage: {
+                storage_gb: Number(document.getElementById("storageGb").value || 0),
+                estimated_cost_usd: result.costs.adls_storage.toFixed(2)
+            },
+            total_estimated_cost_usd: result.total.toFixed(2)
+        }
+    };
+}
+
+function updatePreview() {
+    const payload = buildPayload();
+    document.getElementById("payloadPreview").innerText = JSON.stringify(payload, null, 2);
+}
+
+function submitMetadata() {
+    const payload = buildPayload();
+
+    document.getElementById("payloadPreview").innerText = JSON.stringify(payload, null, 2);
+    document.getElementById("statusMessage").innerText = "Submitting pipeline metadata...";
+
+    fetch("http://localhost:7071/api/metadata?action=create_pipeline", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP Error: " + response.status);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Backend Response:", data);
+        document.getElementById("statusMessage").innerText =
+            "Pipeline created successfully. Config YAML generated.";
+        alert("Pipeline created successfully!");
+    })
+    .catch(error => {
+        console.error("API Error:", error);
+        document.getElementById("statusMessage").innerText =
+            "Backend API failed. Check Azure Function on port 7071.";
+        alert("Backend API failed. Please check Azure Function is running.");
+    });
+}
+
+updatePreview();
+</script>
+
+</body>
+</html>

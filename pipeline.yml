@@ -1,0 +1,95 @@
+pipelines:
+
+  - run_id: "9f12ab34"
+
+    pipeline_name: "Sales_Ingestion"
+
+    environment: "dev"
+
+    dependency: ""
+
+    created_at: "2026-05-14T18:30:00"
+
+    execution_mode: "batch"
+
+
+    source:
+      name: "sales_source"
+
+      path: "raw/sales/input.csv"
+
+      format: "csv"
+
+      connection_string: "storage-connection-secret"
+
+
+    target:
+      catalog: "main"
+
+      schema: "sales"
+
+      layer: "bronze"
+
+      table: "sales_cleaned"
+
+
+    adf:
+      factory_name: "adf-acl-ztetl-dev-in-01"
+
+      pipeline_name: "zero_touch_etl_pipeline"
+
+
+    config:
+      file_name: "pipeline_config.yaml"
+
+      storage_container: "config"
+
+
+    storage_zones:
+      raw: "raw/"
+      bronze: "bronze/"
+      silver: "silver/"
+      gold: "gold/"
+      quarantine: "quarantine/"
+      audit: "audit/"
+      config: "config/"
+
+
+    azure_resources:
+
+      azure_functions:
+        executions: 1000
+        estimated_cost_usd: "0.0002"
+
+
+      azure_data_factory:
+        pipeline_runs: 5
+        estimated_cost_usd: "0.25"
+
+
+      azure_databricks:
+        cluster_hours: 2
+        estimated_cost_usd: "2.40"
+
+
+      azure_sql_db:
+        runtime_hours: 2
+        estimated_cost_usd: "1.60"
+
+
+      linked_services:
+        count: 3
+        estimated_cost_usd: "0.00"
+
+
+      azure_key_vault:
+        secret_operations: 1000
+        estimated_cost_usd: "0.003"
+
+
+      adls_storage:
+        storage_gb: 5
+        estimated_cost_usd: "0.10"
+
+
+      total_estimated_cost_usd: "4.35"

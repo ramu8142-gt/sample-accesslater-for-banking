@@ -1,0 +1,38 @@
+# Core Data Engineering
+pyspark==3.5.1
+py4j==0.10.9.7
+
+# Data handling
+pandas==2.2.2
+numpy==1.26.4
+
+# API Layer (ETL Accelerator backend)
+fastapi==0.110.0
+uvicorn==0.27.1
+
+# Azure SDK
+azure-core==1.41.0
+azure-identity==1.17.1
+azure-keyvault-secrets==4.8.0
+azure-functions==1.21.1
+
+# YAML Support
+PyYAML==6.0.1
+
+# Database connectivity
+pyodbc==5.1.0
+
+# Authentication / Security
+msal==1.25.0
+msal-extensions==1.1.0
+PyJWT==2.8.0
+cryptography==42.0.5
+
+# Utilities
+requests==2.31.0
+python-dateutil==2.9.0
+isodate==0.6.1
+typing_extensions==4.9.0
+
+# Logging / templates
+Werkzeug==3.0.1
